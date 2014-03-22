@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using ReactiveUI.Android;
+using SupportFragment = Android.Support.V4.App.Fragment;
 
 namespace ReactiveUI.Sample.Routing
 {
@@ -18,7 +19,7 @@ namespace ReactiveUI.Sample.Routing
         
     }
 
-    public class ProfileView : ReactiveSherlockFragment<ProfileViewModel>, IProfileView
+    public class ProfileView : ReactiveSupportFragment<ProfileViewModel>, IProfileView
     {
 
         public TextView TxtPath { get; private set; }

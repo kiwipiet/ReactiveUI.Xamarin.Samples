@@ -18,7 +18,7 @@ namespace ReactiveUI.Sample.Routing
         
     }
 
-    public class SearchView : ReactiveSherlockFragment<SearchViewModel>, ISearchView
+    public class SearchView : ReactiveSupportFragment<SearchViewModel>, ISearchView
     {
 
         public TextView TxtPath { get; private set; }

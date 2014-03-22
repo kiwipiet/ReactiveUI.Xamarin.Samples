@@ -13,15 +13,12 @@ using Android.Views;
 using Android.Widget;
 using ReactiveUI.Android;
 using Splat;
-using SherlockActionBar = Xamarin.ActionbarSherlockBinding.App.ActionBar;
+using SupportActionBar = Android.Support.V7.App.ActionBar;
 using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
-//using FragmentManager = Android.Support.V4.App.FragmentManager;
+using FragmentManager = Android.Support.V4.App.FragmentManager;
 using SupportFragment = Android.Support.V4.App.Fragment;
-using Tab = Xamarin.ActionbarSherlockBinding.App.ActionBar.Tab;
-using ActionProvider = Xamarin.ActionbarSherlockBinding.Views.ActionProvider;
-using ActionMode = Xamarin.ActionbarSherlockBinding.Views.ActionMode;
-using IMenu = Xamarin.ActionbarSherlockBinding.Views.IMenu;
-using IMenuItem = Xamarin.ActionbarSherlockBinding.Views.IMenuItem;
+using Tab = Android.Support.V7.App.ActionBar.Tab;
+
 
 namespace ReactiveUI.Sample.Routing
 {
@@ -38,7 +35,7 @@ namespace ReactiveUI.Sample.Routing
     }
 
     [Activity(Label = "RxUI StockWatch+", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.Orientation)]
-    public class MainView : ReactiveSherlockFragmentActivity<MainViewModel>, IMainView, SherlockActionBar.ITabListener
+    public class MainView : ReactiveActionBarActivity<MainViewModel>, IMainView, SupportActionBar.ITabListener
     {
         
         // Fields
@@ -53,7 +50,7 @@ namespace ReactiveUI.Sample.Routing
         private string _currentFragmentTag = null;
         private bool _suppressTabSelected = false;
 
-        public static int THEME = Resource.Style.Sherlock___Theme_Light;
+        public static int THEME = Resource.Style.Theme_AppCompat_Light;
 
         // Properties
 
@@ -119,9 +116,10 @@ namespace ReactiveUI.Sample.Routing
         /// </summary>
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
-
             SetTheme(THEME);
+
+            base.OnCreate(savedInstanceState);
+            
 
             // register as ViewLocator
             Locator.CurrentMutable.RegisterConstant(this, typeof(IViewLocator));
@@ -146,7 +144,7 @@ namespace ReactiveUI.Sample.Routing
 
             EnsureStateFragmentExists();
 
-            SupportActionBar.NavigationMode = SherlockActionBar.NavigationModeTabs;
+            SupportActionBar.NavigationMode = SupportActionBar.NavigationModeTabs;
 
             AddTab("StockList", "", icon: Resource.Drawable.ic_list);
             AddTab("Search", "", icon: Resource.Drawable.ic_magnify);
@@ -794,6 +792,7 @@ namespace ReactiveUI.Sample.Routing
         }
 
         #endregion
+
 
     }
 }

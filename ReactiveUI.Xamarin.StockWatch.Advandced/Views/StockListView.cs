@@ -19,7 +19,7 @@ namespace ReactiveUI.Sample.Routing
         
     }
 
-    public class StockListView : ReactiveSherlockFragment<StockListViewModel>, IStockListView
+    public class StockListView : ReactiveSupportFragment<StockListViewModel>, IStockListView
     {
 
         public Button OpenMarket { get; private set; }
