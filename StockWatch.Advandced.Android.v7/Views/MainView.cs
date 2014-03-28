@@ -11,8 +11,11 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
+using ReactiveUI;
 using ReactiveUI.Android;
 using Splat;
+
 using SupportActionBar = Android.Support.V7.App.ActionBar;
 using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
 using FragmentManager = Android.Support.V4.App.FragmentManager;
@@ -20,7 +23,7 @@ using SupportFragment = Android.Support.V4.App.Fragment;
 using Tab = Android.Support.V7.App.ActionBar.Tab;
 
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
     internal enum TabType
     {

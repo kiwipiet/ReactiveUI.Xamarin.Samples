@@ -12,13 +12,9 @@ using Android.Widget;
 
 using SQLite;
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
-    public interface IAppDb : ISQLiteConnection
-    {
-         
-    }
-
+    
     public class AppDb : SQLiteConnection, IAppDb
     {
         public static object locker = new object();

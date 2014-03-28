@@ -8,7 +8,7 @@ using Android.Widget;
 using ReactiveUI;
 using ReactiveUI.Android;
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
     public class WatchListItemView : ReactiveViewHost<WatchListItemViewModel>
     {

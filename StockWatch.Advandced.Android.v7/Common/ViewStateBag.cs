@@ -11,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Splat;
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
     public class ViewStateBag : Dictionary<string, object>, IEnableLogger
     {

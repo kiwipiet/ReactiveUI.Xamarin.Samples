@@ -9,10 +9,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
+using ReactiveUI;
 using ReactiveUI.Android;
 using Splat;
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
     public interface IStockListView
     {

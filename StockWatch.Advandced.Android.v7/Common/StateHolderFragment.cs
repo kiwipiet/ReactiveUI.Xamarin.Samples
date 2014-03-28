@@ -12,7 +12,7 @@ using Android.Widget;
 using Splat;
 using SupportFragment = Android.Support.V4.App.Fragment;
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
     public class StateHolderFragment : SupportFragment, IEnableLogger
     {

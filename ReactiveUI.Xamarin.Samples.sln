@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Xamarin.StockWatch.Advandced", "ReactiveUI.Xamarin.StockWatch.Advandced\ReactiveUI.Xamarin.StockWatch.Advandced.csproj", "{540649EF-103F-47DA-93EB-2AC074BED315}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockWatch.Advandced.Android.v7", "StockWatch.Advandced.Android.v7\StockWatch.Advandced.Android.v7.csproj", "{540649EF-103F-47DA-93EB-2AC074BED315}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI", "..\ReactiveUI\ReactiveUI\ReactiveUI.csproj", "{464CB812-F99F-401B-BE4C-E8F0515CD19D}"
 EndProject
@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockWatch.Advandced._shared", "StockWatch.Advandced._shared\StockWatch.Advandced._shared.csproj", "{37306338-7A5A-4A9D-8EE3-EE24C1300403}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{F5A9CF9D-DF05-469D-8FE0-EFF483CD4333}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5A9CF9D-DF05-469D-8FE0-EFF483CD4333}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5A9CF9D-DF05-469D-8FE0-EFF483CD4333}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37306338-7A5A-4A9D-8EE3-EE24C1300403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37306338-7A5A-4A9D-8EE3-EE24C1300403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37306338-7A5A-4A9D-8EE3-EE24C1300403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37306338-7A5A-4A9D-8EE3-EE24C1300403}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

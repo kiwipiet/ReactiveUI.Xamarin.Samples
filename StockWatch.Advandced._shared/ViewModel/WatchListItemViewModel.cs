@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ReactiveUI;
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
     public class WatchListItemViewModel : ReactiveObject
     {

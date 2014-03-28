@@ -9,34 +9,33 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using ReactiveUI.Android;
-using SupportFragment = Android.Support.V4.App.Fragment;
 
-namespace ReactiveUI.Sample.Routing
+using ReactiveUI;
+using ReactiveUI.Android;
+
+namespace StockWatch.Advandced
 {
-    public interface IProfileView
+    public interface ISearchView
     {
         
     }
 
-    public class ProfileView : ReactiveSupportFragment<ProfileViewModel>, IProfileView
+    public class SearchView : ReactiveSupportFragment<SearchViewModel>, ISearchView
     {
 
         public TextView TxtPath { get; private set; }
         public TextView TxtCreationDate { get; private set; }
 
-        public Button BtnNavigateSearch { get; private set; }
-        public Button BtnNavigateSearchNoBackStack { get; private set; }
 
         private static View _view;
         private static IScreen _hostScreen;
 
-        public ProfileView()
+        public SearchView()
         {
             
         }
 
-        public ProfileView(IScreen hostScreen)
+        public SearchView(IScreen hostScreen)
         {
             _hostScreen = hostScreen;
         }
@@ -51,17 +50,14 @@ namespace ReactiveUI.Sample.Routing
             }
             try
             {
-                _view = inflater.Inflate(Resource.Layout.Profile, container, false);
+                _view = inflater.Inflate(Resource.Layout.Search, container, false);
 
                 //ViewModel = new StockListViewModel(_hostScreen);
 
-                this.WireUpControls(_view, "profile");
+                this.WireUpControls(_view, "search");
 
                 this.OneWayBind(ViewModel, vm => vm.UrlPathSegment, c => c.TxtPath.Text);
                 this.OneWayBind(ViewModel, vm => vm.CreationDate, c => c.TxtCreationDate.Text);
-
-                this.BindCommand(ViewModel, vm => vm.NavigateSearchCommand, c => c.BtnNavigateSearch);
-                this.BindCommand(ViewModel, vm => vm.NavigateSearchNoBackStackCommand, c => c.BtnNavigateSearchNoBackStack);
 
             }
             catch (InflateException e)

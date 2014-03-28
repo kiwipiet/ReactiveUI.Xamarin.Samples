@@ -9,7 +9,7 @@ using ReactiveUI.Mobile;
 using ReactiveUI.Android;
 using Splat;
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
     [Application()]
     public class App : ReactiveUI.Android.App, IApp
@@ -21,7 +21,7 @@ namespace ReactiveUI.Sample.Routing
 
         private AppDb _appDb;
 
-        public AppDb AppDb
+        public IAppDb AppDb
         {
             get
             {

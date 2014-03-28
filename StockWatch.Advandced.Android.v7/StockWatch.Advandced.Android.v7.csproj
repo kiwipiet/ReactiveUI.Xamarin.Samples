@@ -9,8 +9,8 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReactiveUI.Sample.Routing</RootNamespace>
-    <AssemblyName>ReactiveUI.Sample.Routing.Android</AssemblyName>
+    <RootNamespace>StockWatch.Advandced</RootNamespace>
+    <AssemblyName>StockWatch.Advandced.Android.v7</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
@@ -84,20 +84,9 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AppDb.cs" />
-    <Compile Include="AppService.cs" />
-    <Compile Include="Common\CustomRouteParams.cs" />
-    <Compile Include="Common\SQLiteBase.cs" />
     <Compile Include="Common\SQLiteNet.cs" />
     <Compile Include="Common\StateHolderFragment.cs" />
-    <Compile Include="Common\Utility.cs" />
     <Compile Include="Common\ViewStateBag.cs" />
-    <Compile Include="Entities\WatchListItem.cs" />
-    <Compile Include="IApp.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\ProfileViewModel.cs" />
-    <Compile Include="ViewModel\SearchViewModel.cs" />
-    <Compile Include="ViewModel\StockListViewModel.cs" />
-    <Compile Include="ViewModel\WatchListItemViewModel.cs" />
     <Compile Include="Views\MainView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +128,10 @@
     <ProjectReference Include="..\..\ReactiveUI\ReactiveUI\ReactiveUI.csproj">
       <Project>{464cb812-f99f-401b-be4c-e8f0515cd19d}</Project>
       <Name>ReactiveUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockWatch.Advandced._shared\StockWatch.Advandced._shared.csproj">
+      <Project>{37306338-7a5a-4a9d-8ee3-ee24c1300403}</Project>
+      <Name>StockWatch.Advandced._shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

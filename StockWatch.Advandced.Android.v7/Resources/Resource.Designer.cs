@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("ReactiveUI.Sample.Routing.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("StockWatch.Advandced.Resource", IsApplication=true)]
 
-namespace ReactiveUI.Sample.Routing
+namespace StockWatch.Advandced
 {
 	
 	
