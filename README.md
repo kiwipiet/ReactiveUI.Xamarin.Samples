@@ -16,3 +16,15 @@ The sample includes the following features:
 - supports the back-button for navigation
 - handle configuration changes e.g. change of the orientation
 - reuse of existing views
+
+#### Naming conventions
+
+Layouts (only lowercase):
+a_ layout for Activity
+d_ layout for Dialog
+f_ layout for Fragment
+t_ layout for Toast
+v_ layout for View
+
+Ressource IDs (only lowercase):
+In Layouts: [layoutname]__(two underscores)[controltype prefix e.g. txt or btn][id/name]	

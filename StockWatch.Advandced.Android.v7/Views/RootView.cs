@@ -16,39 +16,30 @@ using ReactiveUI;
 using ReactiveUI.Android;
 using Splat;
 
-using SupportActionBar = Android.Support.V7.App.ActionBar;
-using FragmentTransaction = Android.Support.V4.App.FragmentTransaction;
-using FragmentManager = Android.Support.V4.App.FragmentManager;
-using SupportFragment = Android.Support.V4.App.Fragment;
-using Tab = Android.Support.V7.App.ActionBar.Tab;
+using AppActionBar = Android.Support.V7.App.ActionBar;
+using AppFragmentTransaction = Android.Support.V4.App.FragmentTransaction;
+using AppFragmentManager = Android.Support.V4.App.FragmentManager;
+using AppFragment = Android.Support.V4.App.Fragment;
+using AppTab = Android.Support.V7.App.ActionBar.Tab;
 
 
 namespace StockWatch.Advandced
 {
-    internal enum TabType
-    {
-        StockList = 0,
-        Search = 1,
-        Profile = 2
-    }
+    
 
-    public interface IMainView : IScreen, IViewLocator, IEnableLogger
-    {
-        
-    }
+    
 
-    [Activity(Label = "RxUI StockWatch+", MainLauncher = true, Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.Orientation)]
-    public class MainView : ReactiveActionBarActivity<MainViewModel>, IMainView, SupportActionBar.ITabListener
+    [Activity(Label = "RxUI StockWatch+", MainLauncher = false, Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.Orientation)]
+    public class RootView : ReactiveActionBarActivity<RootViewModel>, IRootView, AppActionBar.ITabListener
     {
         
         // Fields
 
         private StateHolderFragment _stateHolderFragment;
         private const string _stateHolderFragmentTag = "Main_stateHolderFragment";
-        private const string _routingStateKey = "RoutingState";
 
         private Dictionary<string, IDisposable> _subscriptions = null;
-        private Dictionary<string, int> _tabIndicies = null;
+        private Dictionary<TabType, int> _tabIndicies = null;
 
         private string _currentFragmentTag = null;
         private bool _suppressTabSelected = false;
@@ -59,118 +50,59 @@ namespace StockWatch.Advandced
 
         #region public RoutingState Router {get;}
 
-        /// <summary>
-        /// The Router associated with this Screen.
-        /// </summary>
-        public RoutingState Router
-        {
-            get
-            {
-                if (_stateHolderFragment != null){
-                    var routingState = _stateHolderFragment.ViewState.Get<RoutingState>(_routingStateKey);
-                    if (routingState == null){
-                        routingState = new RoutingState();
-                        _stateHolderFragment.ViewState.Add(_routingStateKey, routingState);
-                    }
-                    return routingState;
-                }
-                return null;
-            }
-        }
+        ///// <summary>
+        ///// The Router associated with this Screen.
+        ///// </summary>
+        //public RoutingState Router
+        //{
+        //    get
+        //    {
+        //        if (_stateHolderFragment != null){
+        //            var routingState = _stateHolderFragment.ViewState.Get<RoutingState>(_routingStateKey);
+        //            if (routingState == null){
+        //                routingState = new RoutingState();
+        //                _stateHolderFragment.ViewState.Add(_routingStateKey, routingState);
+        //            }
+        //            return routingState;
+        //        }
+        //        return null;
+        //    }
+        //}
 
         #endregion
 
         #region internal Dictionary<string, Tuple<IRoutableViewModel, IRoutingParams>> TabViewModel
 
-        /// <summary>
-        /// Gets the tab view model.
-        /// </summary>
-        /// <value>
-        /// The tab view model.
-        /// </value>
-        internal Dictionary<string, Tuple<IRoutableViewModel, IRoutingParams>> TabViewModel
-        {
-            get
-            {
-                if (_stateHolderFragment != null)
-                {
-                    var tabViewModel = _stateHolderFragment.ViewState.Get<Dictionary<string, Tuple<IRoutableViewModel, IRoutingParams>>>("TabViewModel");
-                    if (tabViewModel == null)
-                    {
-                        tabViewModel = new Dictionary<string, Tuple<IRoutableViewModel, IRoutingParams>>();
-                        _stateHolderFragment.ViewState.Add("TabViewModel", tabViewModel);
-                    }
-                    return tabViewModel;
-                }
-                return null;
-            }
-        } 
+        ///// <summary>
+        ///// Gets the tab view model.
+        ///// </summary>
+        ///// <value>
+        ///// The tab view model.
+        ///// </value>
+        //internal Dictionary<string, Tuple<IRoutableViewModel, IRoutingParams>> TabViewModel
+        //{
+        //    get
+        //    {
+        //        if (_stateHolderFragment != null)
+        //        {
+        //            var tabViewModel = _stateHolderFragment.ViewState.Get<Dictionary<string, Tuple<IRoutableViewModel, IRoutingParams>>>("TabViewModel");
+        //            if (tabViewModel == null)
+        //            {
+        //                tabViewModel = new Dictionary<string, Tuple<IRoutableViewModel, IRoutingParams>>();
+        //                _stateHolderFragment.ViewState.Add("TabViewModel", tabViewModel);
+        //            }
+        //            return tabViewModel;
+        //        }
+        //        return null;
+        //    }
+        //} 
 
         #endregion
 
-        
+        public TabType ActiveTab { get; set; }
 
         // Methods
 
-        #region protected override void OnCreate(Bundle savedInstanceState)
-
-        /// <summary>
-        /// OnCreate
-        /// </summary>
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            SetTheme(THEME);
-
-            base.OnCreate(savedInstanceState);
-            
-
-            // register as ViewLocator
-            Locator.CurrentMutable.RegisterConstant(this, typeof(IViewLocator));
-
-            this.Log().Debug("Main => OnCreate");
-
-            SupportActionBar.SetDisplayShowHomeEnabled(false);
-            SupportActionBar.SetDisplayShowTitleEnabled(false);
-
-            int selectedTabIndex = 0;
-
-            if (savedInstanceState != null)
-            {
-                selectedTabIndex = savedInstanceState.GetInt("tab", 0);
-                _currentFragmentTag = savedInstanceState.GetString("currentFragmentTag");
-                this.Log().Debug("Main => OnCreate => bundle != null => currentFragmentTag: '{0}'", _currentFragmentTag);
-                this.Log().Debug("Main => OnCreate => bundle != null => selectedTabIndex: {0}", selectedTabIndex);
-            }
-
-            // Set our view from the "main" layout resource
-            SetContentView(Resource.Layout.MainView);
-
-            EnsureStateFragmentExists();
-
-            SupportActionBar.NavigationMode = SupportActionBar.NavigationModeTabs;
-
-            AddTab("StockList", "", icon: Resource.Drawable.ic_list);
-            AddTab("Search", "", icon: Resource.Drawable.ic_magnify);
-            AddTab("Profile", "", icon: Resource.Drawable.ic_profile);
-
-            if (_subscriptions == null) _subscriptions = new Dictionary<string, IDisposable>();
-
-            if (!_subscriptions.ContainsKey("NavigateSubscription"))
-            {
-                _subscriptions.Add("NavigateSubscription", Router.Navigate.Subscribe(OnNavigate));
-                _subscriptions.Add("NavigateBackSubscription", Router.NavigateBackViewModel.Subscribe(OnNavigate));
-            }
-            
-
-            // set ViewModel
-            ViewModel = new MainViewModel();
-
-            SupportActionBar.SetSelectedNavigationItem(selectedTabIndex);
-
-            
-        } 
-
-        #endregion
 
         #region private void EnsureStateFragmentExists()
 
@@ -191,7 +123,7 @@ namespace StockWatch.Advandced
 
         #endregion
 
-        #region private void AddTab(string tag, string text, int? icon = null)
+        #region private void AddTab(TabType tag, string text, int? icon = null)
 
         /// <summary>
         /// Adds the tab.
@@ -199,7 +131,7 @@ namespace StockWatch.Advandced
         /// <param name="tag">The tag.</param>
         /// <param name="text">The text.</param>
         /// <param name="icon">The icon.</param>
-        private void AddTab(string tag, string text, int? icon = null)
+        private void AddTab(TabType tag, string text, int? icon = null)
         {
             var tab = SupportActionBar.NewTab();
             tab.SetText(text);
@@ -209,16 +141,75 @@ namespace StockWatch.Advandced
             }
             
             tab.SetTabListener(this);
-            tab.SetTag(tag);
+            tab.SetTag(Convert.ToString(tag));
             SupportActionBar.AddTab(tab, false);
 
-            _tabIndicies = _tabIndicies ?? new Dictionary<string, int>();
+            _tabIndicies = _tabIndicies ?? new Dictionary<TabType, int>();
             _tabIndicies.Add(tag, _tabIndicies.Count);
         }
 
         #endregion
 
         // Activity lifecycle
+
+        #region protected override void OnCreate(Bundle savedInstanceState)
+
+        /// <summary>
+        /// OnCreate
+        /// </summary>
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            SetTheme(THEME);
+
+            base.OnCreate(savedInstanceState);
+
+
+            // register as ViewLocator
+            Locator.CurrentMutable.RegisterConstant(this, typeof(IViewLocator));
+
+            this.Log().Debug("Main => OnCreate");
+
+            SupportActionBar.SetDisplayShowHomeEnabled(false);
+            SupportActionBar.SetDisplayShowTitleEnabled(false);
+
+
+            // Set our view from the "main" layout resource
+            SetContentView(Resource.Layout.a_rootView);
+
+            EnsureStateFragmentExists();
+
+            SupportActionBar.NavigationMode = AppActionBar.NavigationModeTabs;
+
+            AddTab(TabType.WatchList, "", icon: Resource.Drawable.ic_list);
+            AddTab(TabType.Search, "", icon: Resource.Drawable.ic_magnify);
+            AddTab(TabType.Profile, "", icon: Resource.Drawable.ic_profile);
+
+            // set ViewModel
+            ViewModel = new RootViewModel();
+
+            if (_subscriptions == null) _subscriptions = new Dictionary<string, IDisposable>();
+
+            if (!_subscriptions.ContainsKey("OnTabSelected"))
+            {
+                _subscriptions.Add("OnTabSelected", ViewModel.ObservableForProperty(p => p.ActiveTab).Subscribe(s => SetTabActive(s.Value)));
+            }
+
+            App.Current.AppModel.RootView = this;
+            App.Current.AppModel.Init(); // Call Init from here because RxApp.MainThreadScheduler must be set
+
+            // Navigate to Content
+            if (savedInstanceState != null)
+            {
+                // We only want to restore and not navigate to the current view and so we need to bypass the Navigation-Router
+                App.Current.AppModel.OnNavigate(App.Current.AppModel.Router.GetCurrentViewModel());
+            }
+            else
+            {
+                ViewModel.SelectTab(TabType.WatchList);
+            }
+        }
+
+        #endregion
 
         #region public override bool OnCreateOptionsMenu(IMenu menu)
 
@@ -279,11 +270,17 @@ namespace StockWatch.Advandced
             // 
             Utility.ReleaseSubscriptions(_subscriptions);
 
-            outState.PutInt("tab", SupportActionBar.SelectedNavigationIndex);
-            outState.PutString("currentFragmentTag", _currentFragmentTag);
+            // Detach current fragment
+            if (!String.IsNullOrEmpty(_currentFragmentTag))
+            {
+                var ft = SupportFragmentManager.BeginTransaction();
+                RemoveCurrentFragment(ft);
+                ft.Commit();
+            }
+
+            SupportFragmentManager.ExecutePendingTransactions();
 
             base.OnSaveInstanceState(outState);
-            
 
             this.Log().Debug("OnSaveInstanceState => currentFragmentTag '{0}'", _currentFragmentTag);
         }
@@ -326,11 +323,11 @@ namespace StockWatch.Advandced
         {
             base.OnResume();
 
-            if (!_subscriptions.ContainsKey("NavigateSubscription"))
-            {
-                _subscriptions.Add("NavigateSubscription", Router.Navigate.Subscribe(OnNavigate));
-                _subscriptions.Add("NavigateBackSubscription", Router.NavigateBackViewModel.Subscribe(OnNavigate));
-            }
+            //if (!_subscriptions.ContainsKey("NavigateSubscription"))
+            //{
+            //    _subscriptions.Add("NavigateSubscription", Router.Navigate.Subscribe(OnNavigate));
+            //    _subscriptions.Add("NavigateBackSubscription", Router.NavigateBackViewModel.Subscribe(OnNavigate));
+            //}
         }
 
         #endregion
@@ -368,29 +365,27 @@ namespace StockWatch.Advandced
         public override void OnBackPressed()
         {
             this.Log().Debug("Main => OnBackPressed");
-            Router.NavigateBack.Execute(null);
+            App.Current.AppModel.Router.NavigateBack.Execute(null);
         }
 
         #endregion
 
         // Routing
 
-        #region private void OnNavigate(object routableView)
+        #region public void OnNavigate(Tuple<IRoutableViewModel, IRoutingParams> viewModelWithParams)
 
         /// <summary>
         /// Called when [navigate].
         /// </summary>
-        /// <param name="routableView">The routable view.</param>
-        private void OnNavigate(object routableView)
+        /// <param name="viewModelWithParams">The view model with parameters.</param>
+        public void OnNavigate(Tuple<IRoutableViewModel, IRoutingParams> viewModelWithParams)
         {
-            this.Log().Debug("OnNavigate => {0} (StackCount: {1}; CurrentFragmentTag: {2})", Convert.ToString(routableView), Router.NavigationStack.Count, _currentFragmentTag);
+            this.Log().Debug("OnNavigate => {0} (StackCount: {1}; CurrentFragmentTag: {2})", Convert.ToString(viewModelWithParams.Item1), App.Current.AppModel.Router.NavigationStack.Count, _currentFragmentTag);
 
-            var viewModelWithParams = routableView.AsRoutableViewModel<IRoutableViewModel>();
             if (viewModelWithParams != null)
             {
 
                 var urlPathSegment = viewModelWithParams.Item1.UrlPathSegment;
-                var pathSegments = Utility.GetPathSegments(urlPathSegment);
 
                 // Reusable View?
                 var customRouteParams = CustomRoutingParams.GetValueOrDefault(viewModelWithParams.Item2);
@@ -409,10 +404,6 @@ namespace StockWatch.Advandced
                     view = fragment as IViewFor;
                 }
 
-                //this.Log().Debug(string.Format("OnNavigate => view: {0}", Convert.ToString(view)));
-
-
-                
                 this.Log().Debug("OnNavigate => {0}", urlPathSegment);
                 if (view != null)
                 {
@@ -428,25 +419,14 @@ namespace StockWatch.Advandced
                         this.Log().Debug("OnNavigate => ViewModel unchanged");
                     }
 
-                    //var current = ((ViewGroup)((ViewGroup)FindViewById(global::Android.Resource.Id.Content)).GetChildAt(0));
-                    //if (current != null)
-                    //{
-                    //    this.Log().Debug("OnNavigate => current Content: {0} ({1})", current, current.ChildCount);
-                    //}
-
                     // Detach current fragment if different
                     if (!String.IsNullOrEmpty(_currentFragmentTag) && _currentFragmentTag != urlPathSegment)
                     {
-                        var currentfragment = SupportFragmentManager.FindFragmentByTag(_currentFragmentTag);
-                        if (currentfragment != null && !currentfragment.IsDetached)
-                        {
-                            this.Log().Debug("OnNavigate => Detach: {0}", _currentFragmentTag);
-                            ft.Detach(currentfragment);
-                        }
+                        RemoveCurrentFragment(ft);
                     }
 
                     // Attach
-                    var newFragment = view as SupportFragment;
+                    var newFragment = view as AppFragment;
                     if (newFragment != null)
                     {
                         if (!newFragment.IsAdded)
@@ -461,36 +441,40 @@ namespace StockWatch.Advandced
                         }
                     }
                     ft.Commit();
-
-                    // Change Tab?
-                    if (!String.IsNullOrEmpty(_currentFragmentTag) && _currentFragmentTag != urlPathSegment)
-                    {
-                        var currentpathSegments = Utility.GetPathSegments(_currentFragmentTag);
-                        if (pathSegments != null && currentpathSegments != null && pathSegments[0] != currentpathSegments[0])
-                        {
-                            // FindTabIndex
-                            if (_tabIndicies.ContainsKey(pathSegments[0]))
-                            {
-                                var newTabIndex = _tabIndicies[pathSegments[0]];
-                                if (SupportActionBar.SelectedNavigationIndex != newTabIndex)
-                                {
-                                    _suppressTabSelected = true;
-                                    SupportActionBar.SetSelectedNavigationItem(newTabIndex);
-                                }
-                            }
-                        }
-                    }
-
+                    
                     // Set currentFragmentTag
                     _currentFragmentTag = urlPathSegment;
 
                 }
             }
-        } 
+        }
+
+        
 
         #endregion
 
+        #region public void SetTabActive(TabType tab)
 
+        /// <summary>
+        /// Sets the tab active.
+        /// </summary>
+        /// <param name="tab">The tab.</param>
+        private void SetTabActive(TabType tab)
+        {
+            this.Log().Debug("SetTabActive {0}", tab);
+            // FindTabIndex
+            if (_tabIndicies.ContainsKey(tab))
+            {
+                var newTabIndex = _tabIndicies[tab];
+                if (SupportActionBar.SelectedNavigationIndex != newTabIndex)
+                {
+                    _suppressTabSelected = true;
+                    SupportActionBar.SetSelectedNavigationItem(newTabIndex);
+                }
+            }
+        } 
+
+        #endregion
 
         // IViewLocator
 
@@ -596,7 +580,7 @@ namespace StockWatch.Advandced
 
         // ITabListener
 
-        #region public void OnTabSelected(Tab tab, FragmentTransaction ft)
+        #region public void OnTabSelected(AppTab tab, AppFragmentTransaction ft)
 
         /// <summary>
         /// Called when [tab selected].
@@ -604,96 +588,58 @@ namespace StockWatch.Advandced
         /// <param name="tab">The tab.</param>
         /// <param name="ft">The ft.</param>
         /// <exception cref="Java.Lang.IllegalArgumentException">Unknown TabType</exception>
-        public void OnTabSelected(Tab tab, FragmentTransaction ft)
+        public void OnTabSelected(AppTab tab, AppFragmentTransaction ft)
         {
-            if (_suppressTabSelected)
-            {
-                this.Log().Debug("Main => OnTabSelected (suppressed) => {0}", tab.Tag);
-                _suppressTabSelected = false;
-                return;
-            }
-
-            this.Log().Debug("Main => OnTabSelected => {0}", tab.Tag);
-
-            Tuple<IRoutableViewModel, IRoutingParams> tabViewModel = null;
             var tabType = Convert.ToString(tab.Tag);
-            if (!String.IsNullOrEmpty(tabType) && !TabViewModel.ContainsKey(tabType))
+            if (String.Compare(tabType, "WatchList", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                this.Log().Debug("Main => OnTabSelected => New TabViewModel {0}", tab.Tag);
-                if (tabType == "StockList")
-                {
-                    tabViewModel = Tuple.Create(new StockListViewModel(this) as IRoutableViewModel,
-                            new CustomRoutingParams { ReuseExistingView = true } as IRoutingParams);
-                    TabViewModel.Add(tabType, tabViewModel);
-                }
-                else if (tabType == "Search")
-                {
-                    tabViewModel = Tuple.Create(new SearchViewModel(this) as IRoutableViewModel,
-                            new CustomRoutingParams { ReuseExistingView = true } as IRoutingParams);
-                    TabViewModel.Add(tabType, tabViewModel);
-                }
-                else if (tabType == "Profile")
-                {
-                    tabViewModel = Tuple.Create(new ProfileViewModel(this) as IRoutableViewModel,
-                            new CustomRoutingParams { ReuseExistingView = true } as IRoutingParams);
-                    TabViewModel.Add(tabType, tabViewModel);
-                }
-                else
-                {
-                    throw new Exception("Unknown TabType");
-                }
+                ActiveTab = TabType.WatchList;
+            }
+            else if (String.Compare(tabType, "Search", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                ActiveTab = TabType.Search;
+            }
+            else if (String.Compare(tabType, "Profile", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                ActiveTab = TabType.Profile;
             }
             else
             {
-                this.Log().Debug("Main => OnTabSelected => Reuse TabViewModel {0}", tabType);
-                tabViewModel = TabViewModel[tabType];
+                throw new Exception("Unknown TabType");
             }
 
-            this.Router.ExcecuteNavigateWithParams(tabViewModel);
-            
+            this.ViewModel.SelectTab(ActiveTab, _suppressTabSelected);
+            _suppressTabSelected = false;
+
         }
 
         #endregion
 
-        #region public void OnTabReselected(Tab tab, FragmentTransaction ft)
+        #region public void OnTabReselected(AppTab tab, AppFragmentTransaction ft)
 
         /// <summary>
         /// Called when [tab reselected].
         /// </summary>
         /// <param name="tab">The tab.</param>
         /// <param name="ft">The ft.</param>
-        public void OnTabReselected(Tab tab, FragmentTransaction ft)
+        public void OnTabReselected(AppTab tab, AppFragmentTransaction ft)
         {
 
             this.Log().Debug("Main => OnTabReselected => {0}", tab.Tag);
 
-            //// Select proper stack
-            //Stack<String> backStack = _backStacks[(TabType)Convert.ToInt32(tab.Tag)];
-
-            //if (backStack.Count > 1)
-            //    ft.SetCustomAnimations(Android.Resource.Animation.SlideOutRight, Android.Resource.Animation.SlideInLeft);
-            //// Clean the stack leaving only initial fragment
-            //while (backStack.Count > 1)
-            //{
-            //    // Pop topmost fragment
-            //    String tag = backStack.Pop();
-            //    var fragment = SupportFragmentManager.FindFragmentByTag(tag);
-            //    // Remove it
-            //    ft.Remove(fragment);
-            //}
-            //ShowFragment(backStack, ft);
+            OnTabSelected(tab, ft);
         }
 
         #endregion
 
-        #region public void OnTabUnselected(Tab tab, FragmentTransaction ft)
+        #region public void OnTabUnselected(AppTab tab, AppFragmentTransaction ft)
 
         /// <summary>
         /// Called when [tab unselected].
         /// </summary>
         /// <param name="tab">The tab.</param>
         /// <param name="ft">The ft.</param>
-        public void OnTabUnselected(Tab tab, FragmentTransaction ft)
+        public void OnTabUnselected(AppTab tab, AppFragmentTransaction ft)
         {
 
             this.Log().Debug("Main => OnTabUnselected => {0}", tab.Tag);
@@ -720,79 +666,34 @@ namespace StockWatch.Advandced
 
         // Fragment handling
 
-        #region internal void AddFragment(SupportFragment fragment)
+        #region private void RemoveCurrentFragment(AppFragmentTransaction ft)
 
         /// <summary>
-        /// Adds the fragment.
+        /// Removes the current fragment.
         /// </summary>
-        /// <param name="fragment">The fragment.</param>
-        internal void AddFragment(SupportFragment fragment)
-        {
-
-            this.Log().Debug("Main => AddFragment => {0}", fragment.GetType());
-
-            // Select proper stack
-            var tab = SupportActionBar.SelectedTab;
-            //Stack<String> backStack = _backStacks[(TabType)Convert.ToInt32(tab.Tag)];
-
-            //FragmentTransaction ft = SupportFragmentManager.BeginTransaction();
-            //// Animate transfer to new fragment
-            ////ft.SetCustomAnimations(Android.Resource.Animation.SlideOutRight, Android.Resource.Animation.SlideOutRight);
-            //// Get topmost fragment
-            //String tag = backStack.Peek();
-            //var top = SupportFragmentManager.FindFragmentByTag(tag);
-            //ft.Detach(top);
-            //// Add new fragment
-            //AddFragment(fragment, backStack, ft);
-            //ft.Commit();
-        }
-
-        #endregion
-
-        #region internal void AddFragment(SupportFragment fragment, Stack<String> backStack, FragmentTransaction ft)
-
-        /// <summary>
-        /// Adds the fragment.
-        /// </summary>
-        /// <param name="fragment">The fragment.</param>
-        /// <param name="backStack">The back stack.</param>
         /// <param name="ft">The ft.</param>
-        internal void AddFragment(SupportFragment fragment, Stack<String> backStack, FragmentTransaction ft)
+        private void RemoveCurrentFragment(AppFragmentTransaction ft)
         {
+            // Detach current fragment if different
+            if (!String.IsNullOrEmpty(_currentFragmentTag))
+            {
+                var currentfragment = SupportFragmentManager.FindFragmentByTag(_currentFragmentTag);
 
-            this.Log().Debug("Main => AddFragment with backStack => {0}", fragment.GetType());
+                // We need to detach the fragments inside the composite View
+                var compositeView = currentfragment as WatchListAndDetailView;
+                if (compositeView != null)
+                {
+                    this.Log().Debug("RemoveCurrentFragment => ReleaseComposition");
+                    compositeView.ReleaseComposition();
+                }
 
-            // Add fragment to back stack with unique tag
-            String tag = Guid.NewGuid().ToString();
-            ft.Add(global::Android.Resource.Id.Content, fragment, tag);
-            backStack.Push(tag);
-
-            this.Log().Debug("Main => AddFragment with backStack => {0} READY!!", fragment.GetType());
-        }
-
-        #endregion
-
-        #region internal void ShowFragment(Stack<String> backStack, FragmentTransaction ft)
-
-        /// <summary>
-        /// Shows the fragment.
-        /// </summary>
-        /// <param name="backStack">The back stack.</param>
-        /// <param name="ft">The ft.</param>
-        internal void ShowFragment(Stack<String> backStack, FragmentTransaction ft)
-        {
-
-            this.Log().Debug("Main => ShowFragment...");
-
-            // Peek topmost fragment from the stack
-            String tag = backStack.Peek();
-            var fragment = SupportFragmentManager.FindFragmentByTag(tag);
-
-            this.Log().Debug("Main => ShowFragment => {0}", fragment.GetType());
-
-            // and attach it
-            ft.Attach(fragment);
-        }
+                if (currentfragment != null && !currentfragment.IsDetached)
+                {
+                    this.Log().Debug("RemoveCurrentFragment => Detach: {0}", _currentFragmentTag);
+                    ft.Detach(currentfragment);
+                }
+            }
+        } 
 
         #endregion
 

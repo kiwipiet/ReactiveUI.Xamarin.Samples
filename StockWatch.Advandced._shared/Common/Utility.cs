@@ -65,7 +65,7 @@ namespace StockWatch.Advandced
         {
             if (router != null)
             {
-                router.Navigate.Execute(Tuple.Create(viewModel, routingParams));
+                router.Navigate.Execute(new RoutableViewModelWithParams(viewModel, routingParams));
             }
         } 
 

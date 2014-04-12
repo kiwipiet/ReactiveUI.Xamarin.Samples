@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="com.RxUI.Samples.StockWatch.Advandced">
+	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="15" />
+	<application android:label="RxUI StockWatch Advandced" android:icon="@drawable/Icon"></application>
+</manifest>

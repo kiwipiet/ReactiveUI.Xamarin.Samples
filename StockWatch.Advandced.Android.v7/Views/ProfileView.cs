@@ -12,16 +12,11 @@ using Android.Widget;
 
 using ReactiveUI;
 using ReactiveUI.Android;
-using SupportFragment = Android.Support.V4.App.Fragment;
 
 namespace StockWatch.Advandced
 {
-    public interface IProfileView
-    {
-        
-    }
 
-    public class ProfileView : ReactiveSupportFragment<ProfileViewModel>, IProfileView
+    public class ProfileView : ReactiveFragment<ProfileViewModel>, IProfileView
     {
 
         public TextView TxtPath { get; private set; }
@@ -53,7 +48,7 @@ namespace StockWatch.Advandced
             }
             try
             {
-                _view = inflater.Inflate(Resource.Layout.Profile, container, false);
+                _view = inflater.Inflate(Resource.Layout.f_profile, container, false);
 
                 //ViewModel = new StockListViewModel(_hostScreen);
 
@@ -75,5 +70,6 @@ namespace StockWatch.Advandced
             return _view;
         }
 
+        
     }
 }

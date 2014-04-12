@@ -15,7 +15,8 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:id="@+id/search_Symbol"
-            android:gravity="fill" />
+            android:singleLine="false"
+            android:inputType="text" />
         <Button
             android:text="Search"
             android:layout_width="wrap_content"
