@@ -16,7 +16,7 @@ using ReactiveUI.Android;
 namespace StockWatch.Advandced
 {
 
-    public class ProfileView : ReactiveFragment<ProfileViewModel>, IProfileView
+    public class SettingsView : ReactiveFragment<SettingsViewModel>, ISettingsView
     {
 
         public TextView TxtPath { get; private set; }
@@ -28,12 +28,12 @@ namespace StockWatch.Advandced
         private static View _view;
         private static IScreen _hostScreen;
 
-        public ProfileView()
+        public SettingsView()
         {
             
         }
 
-        public ProfileView(IScreen hostScreen)
+        public SettingsView(IScreen hostScreen)
         {
             _hostScreen = hostScreen;
         }
@@ -48,11 +48,11 @@ namespace StockWatch.Advandced
             }
             try
             {
-                _view = inflater.Inflate(Resource.Layout.f_profile, container, false);
+                _view = inflater.Inflate(Resource.Layout.f_settings, container, false);
 
                 //ViewModel = new StockListViewModel(_hostScreen);
 
-                this.WireUpControls(_view, "profile");
+                this.WireUpControls(_view, "settings");
 
                 this.OneWayBind(ViewModel, vm => vm.UrlPathSegment, c => c.TxtPath.Text);
                 this.OneWayBind(ViewModel, vm => vm.CreationDate, c => c.TxtCreationDate.Text);

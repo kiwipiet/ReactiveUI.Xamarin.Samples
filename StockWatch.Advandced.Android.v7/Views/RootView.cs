@@ -182,7 +182,7 @@ namespace StockWatch.Advandced
 
             AddTab(TabType.WatchList, "", icon: Resource.Drawable.ic_list);
             AddTab(TabType.Search, "", icon: Resource.Drawable.ic_magnify);
-            AddTab(TabType.Profile, "", icon: Resource.Drawable.ic_profile);
+            AddTab(TabType.Settings, "", icon: Resource.Drawable.ic_settings);
 
             // set ViewModel
             ViewModel = new RootViewModel();
@@ -599,9 +599,9 @@ namespace StockWatch.Advandced
             {
                 ActiveTab = TabType.Search;
             }
-            else if (String.Compare(tabType, "Profile", StringComparison.OrdinalIgnoreCase) == 0)
+            else if (String.Compare(tabType, "Settings", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                ActiveTab = TabType.Profile;
+                ActiveTab = TabType.Settings;
             }
             else
             {

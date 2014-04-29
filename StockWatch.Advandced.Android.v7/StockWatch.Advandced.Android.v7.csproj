@@ -49,10 +49,16 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ModernHttpClient.Android">
+      <HintPath>..\packages\modernhttpclient.1.2.2\lib\MonoAndroid\ModernHttpClient.Android.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\libs\Portable-Net45+WinRT45+WP8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OkHttp">
+      <HintPath>..\packages\modernhttpclient.1.2.2\lib\MonoAndroid\OkHttp.dll</HintPath>
     </Reference>
     <Reference Include="Splat">
       <HintPath>..\libs\Portable-Net45+WinRT45+WP8\Splat.dll</HintPath>
@@ -100,7 +106,7 @@
     <Compile Include="Views\RootView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\ProfileView.cs" />
+    <Compile Include="Views\Settings\SettingsView.cs" />
     <Compile Include="Views\Search\SearchResultItemView.cs" />
     <Compile Include="Views\Search\SearchView.cs" />
     <Compile Include="Views\WatchList\WatchListAndDetailView.cs" />
@@ -110,6 +116,7 @@
     <Compile Include="Views\WatchList\WatchListItemDetailView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
@@ -118,7 +125,7 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\f_search.axml" />
-    <AndroidResource Include="Resources\layout\f_profile.axml" />
+    <AndroidResource Include="Resources\layout\f_settings.axml" />
     <AndroidResource Include="Resources\layout\v_search_resultitem.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -145,8 +152,8 @@
     <AndroidResource Include="Resources\drawable\splash.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_list.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_magnify.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_profile.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\splash.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_settings.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ReactiveUI\ReactiveUI.Platforms\ReactiveUI.Android.Support.v7.csproj">

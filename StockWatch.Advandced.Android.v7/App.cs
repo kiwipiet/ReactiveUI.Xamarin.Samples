@@ -52,7 +52,7 @@ namespace StockWatch.Advandced
         #region public App(IntPtr handle, JniHandleOwnership transfer) : base (handle, transfer)
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReactiveUI.Xamarin.Android.App"/> class.
+        /// Initializes a new instance of the <see cref="ReactiveUI.Android.App"/> class.
         /// </summary>
         /// <param name="handle">The handle.</param>
         /// <param name="transfer">The transfer.</param>
@@ -164,7 +164,7 @@ namespace StockWatch.Advandced
             resolver.Register(() => new WatchListAndDetailView(), typeof(IViewFor<WatchListAndDetailViewModel>));
 
             resolver.Register(() => new SearchView(), typeof(IViewFor<SearchViewModel>));
-            resolver.Register(() => new ProfileView(), typeof(IViewFor<ProfileViewModel>));
+            resolver.Register(() => new SettingsView(), typeof(IViewFor<SettingsViewModel>));
         } 
 
         #endregion
@@ -243,6 +243,10 @@ namespace StockWatch.Advandced
 
         #endregion
 
+        public string GetOrientation()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

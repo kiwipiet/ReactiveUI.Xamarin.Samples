@@ -10,7 +10,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/profile_txtPath"
+        android:id="@+id/settings_txtPath"
         android:gravity="center"
         android:layout_marginRight="0.0dp" />
     <TextView
@@ -18,17 +18,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/profile_txtCreationDate"
+        android:id="@+id/settings_txtCreationDate"
         android:gravity="center"
         android:layout_marginRight="0.0dp" />
     <Button
         android:text="Navigate Search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/profile_btnNavigateSearch" />
+        android:id="@+id/settings_btnNavigateSearch" />
     <Button
         android:text="Navigate Search (no backstack)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/profile_btnNavigateSearchNoBackStack" />
+        android:id="@+id/settings_btnNavigateSearchNoBackStack" />
 </LinearLayout>
