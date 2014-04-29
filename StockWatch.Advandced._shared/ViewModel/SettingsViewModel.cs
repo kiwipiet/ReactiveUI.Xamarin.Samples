@@ -8,10 +8,10 @@ using Splat;
 
 namespace StockWatch.Advandced
 {
-    public class ProfileViewModel : ReactiveObject, IRoutableViewModel
+    public class SettingsViewModel : ReactiveObject, IRoutableViewModel
     {
         public string UrlPathSegment {
-            get { return "/Profile"; }
+            get { return "/Settings"; }
         }
 
         public IScreen HostScreen { get; protected set; }
@@ -24,7 +24,7 @@ namespace StockWatch.Advandced
 
 
 
-        public ProfileViewModel(IScreen hostScreen)
+        public SettingsViewModel(IScreen hostScreen)
         {
             HostScreen = hostScreen ?? Locator.Current.GetService<IScreen>();
 

@@ -13,7 +13,7 @@ namespace StockWatch.Advandced
         None = 0,
         WatchList = 1,
         Search = 2,
-        Profile = 3
+        Settings = 3
     }
 
     /// <summary>

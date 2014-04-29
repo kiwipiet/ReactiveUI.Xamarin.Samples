@@ -56,13 +56,13 @@
     <Compile Include="IPlatform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\RootViewModel.cs" />
-    <Compile Include="ViewModel\ProfileViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\SearchViewModel.cs" />
     <Compile Include="ViewModel\WatchListAndDetailViewModel.cs" />
     <Compile Include="ViewModel\WatchListItemDetailViewModel.cs" />
     <Compile Include="ViewModel\WatchListViewModel.cs" />
     <Compile Include="ViewModel\WatchListItemViewModel.cs" />
-    <Compile Include="Views\IProfileView.cs" />
+    <Compile Include="Views\ISettingsView.cs" />
     <Compile Include="Views\IRootView.cs" />
     <Compile Include="Views\ISearchView.cs" />
     <Compile Include="Views\IWatchListAndDetailView.cs" />

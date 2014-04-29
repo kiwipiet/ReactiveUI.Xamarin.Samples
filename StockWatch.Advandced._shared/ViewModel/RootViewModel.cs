@@ -65,9 +65,9 @@ namespace StockWatch.Advandced
                             new CustomRoutingParams { ReuseExistingView = true } as IRoutingParams);
                     viewModelPool.Add(activeTab.ToString(), tabViewModel);
                 }
-                else if (activeTab == TabType.Profile)
+                else if (activeTab == TabType.Settings)
                 {
-                    tabViewModel = Tuple.Create(new ProfileViewModel(app.AppModel) as IRoutableViewModel,
+                    tabViewModel = Tuple.Create(new SettingsViewModel(app.AppModel) as IRoutableViewModel,
                             new CustomRoutingParams { ReuseExistingView = true } as IRoutingParams);
                     viewModelPool.Add(activeTab.ToString(), tabViewModel);
                 }

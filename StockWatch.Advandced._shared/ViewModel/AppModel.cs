@@ -128,7 +128,7 @@ namespace StockWatch.Advandced
                         }
                         else if (String.Compare(tabType, "Profile", StringComparison.OrdinalIgnoreCase) == 0)
                         {
-                            RootView.ViewModel.SelectTab(TabType.Profile, true);
+                            RootView.ViewModel.SelectTab(TabType.Settings, true);
                         }
                     }
                 }

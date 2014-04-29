@@ -7,7 +7,7 @@ using ReactiveUI;
 
 namespace StockWatch.Advandced
 {
-    public interface IProfileView : IViewFor<ProfileViewModel>
+    public interface ISettingsView : IViewFor<SettingsViewModel>
     {
 
     }
